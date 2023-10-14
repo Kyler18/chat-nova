@@ -52,13 +52,11 @@ export function UploadPDFButton() {
 
   return (
     <div>
-      // Render the upload button
       <Button onClick={handleButtonClick} size="3" variant="solid">
         <PiUploadSimpleBold />
         Upload PDF
       </Button>
       
-      // Hidden file input element
       <input
         ref={fileInputRef}
         style={{ display: "none" }}

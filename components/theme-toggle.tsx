@@ -37,7 +37,7 @@ export const ThemeToggle = () => {
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.span {...framerTheme} className="flex" key={theme}>
-          {isDark ? <RiMoonCloudyLine /> : <FiSun />} // Display appropriate icon based on theme
+          {isDark ? <RiMoonCloudyLine /> : <FiSun />}
         </motion.span>
       </AnimatePresence>
     </Button>

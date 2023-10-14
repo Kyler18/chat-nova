@@ -28,7 +28,6 @@ export const HistorySidebar = ({
   // Component render
   return (
     <>
-      // Hamburger menu button to open sidebar
       <div className="sticky top-0 z-50 w-full py-2 bg-white border-b border-gray-200 dark:bg-zinc-900 dark:border-b-zinc-700 lg:hidden">
         <div className="container">
           <Button
@@ -43,22 +42,17 @@ export const HistorySidebar = ({
           </Button>
         </div>
       </div>
-      // AnimatePresence wrapper for sidebar animations
       <AnimatePresence mode="wait" initial={false}>
         {open && (
           <>
-            // Background overlay animation
             <motion.div
               {...framer_sidebar_background}
               className="fixed top-0 bottom-0 left-0 right-0 z-40 lg:hidden backdrop-blur-sm"
             ></motion.div>
-
-            // Sidebar panel animation
             <motion.div
               {...framer_sidebar_panel}
               className="fixed bottom-0 lg:hidden shadow-xl w-full left-0 top-0 z-50 h-screen max-w-[80%] md:max-w-[20rem] dark:border-r-zinc-700 bg-white border-r dark:bg-zinc-900"
             >
-              // HistoryRenderer component to display chat history
               <div className="w-full h-full" ref={ref}>
                 <HistoryRenderer chats={chats} session={session} />
               </div>

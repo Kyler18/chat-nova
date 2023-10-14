@@ -47,7 +47,7 @@ export const ChatCreatorClient = () => {
       onClick={handleCreate} // Set click handler
       className="flex justify-start w-full "
     >
-      {loading ? <ImSpinner4 className="animate-spin" /> : <AiOutlinePlus />} // Show spinner or plus icon based on loading status
+      {loading ? <ImSpinner4 className="animate-spin" /> : <AiOutlinePlus />}
       New Chat
     </Button>
   );

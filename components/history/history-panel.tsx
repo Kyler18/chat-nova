@@ -18,12 +18,10 @@ export const HistoryPanel = ({
 }) => {
   return (
     <aside
-      // CSS classes for styling the component
       className={
         "hidden lg:flex space-y-5 sticky h-screen top-0 w-[22rem]  border-r border-gray-300 dark:border-zinc-700"
       }
     >
-      // Using the HistoryRenderer component to render the chat history
       <HistoryRenderer chats={chats} session={session} />
     </aside>
   );

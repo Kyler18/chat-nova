@@ -55,10 +55,10 @@ export const ChatEditDialog = ({
 
   // Render the component
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}> // Dialog root
-      <Dialog.Trigger>{triggerComponent}</Dialog.Trigger> // Dialog trigger
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Trigger>{triggerComponent}</Dialog.Trigger>
 
-      <Dialog.Content style={{ maxWidth: 450, margin: 10, padding: 0 }}> // Dialog content
+      <Dialog.Content style={{ maxWidth: 450, margin: 10, padding: 0 }}>
         <h1 className="p-5 text-xl border-b dark:border-zinc-700">
           Edit Chat Title
         </h1>
@@ -71,7 +71,7 @@ export const ChatEditDialog = ({
             size="3"
           >
             <TextField.Slot>
-              <Pencil1Icon height="16" width="16" /> // Pencil icon
+              <Pencil1Icon height="16" width="16" />
             </TextField.Slot>
             <TextField.Input
               value={input} // Input value
@@ -87,10 +87,10 @@ export const ChatEditDialog = ({
               Cancel
             </Button>
           </Dialog.Close>
-          <Button onClick={handleDelete} disabled={loading} size="3"> // Update button
+          <Button onClick={handleDelete} disabled={loading} size="3"> 
             {loading ? (
               <>
-                <ImSpinner2 className="animate-spin" /> // Spinner icon
+                <ImSpinner2 className="animate-spin" />
                 Updating...
               </>
             ) : (

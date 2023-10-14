@@ -33,14 +33,12 @@ export const HistoryRenderer = ({
   return (
     // The component is structured as a flex container with three main sections: the chat creator and theme toggle, the chat list, and the user info and sign out button.
     <div className="flex flex-col justify-between w-full h-full gap-2 ">
-      // The chat creator and theme toggle are displayed at the top of the component.
       <div className="flex w-full gap-1 p-5 pb-0">
         <div className="w-full">
           <ChatCreatorClient />
         </div>
         <ThemeToggle />
       </div>
-      // The chat list is displayed in a scrollable area. Each chat is a link to the chat's page, and the active chat has options to delete or edit the chat.
       {chats && (
         <ScrollArea
           type="hover"
@@ -48,7 +46,6 @@ export const HistoryRenderer = ({
           scrollbars="vertical"
           style={{ height: 410 }}
         >
-          // The chat list is displayed as an unordered list.
           <ul className="py-10 text-sm">
             {chats.map((chat) => {
               const isActive = chat.id === params.id;
@@ -57,7 +54,6 @@ export const HistoryRenderer = ({
                   key={chat.id}
                   className="relative border-b dark:border-b-zinc-800 last-of-type:border-none"
                 >
-                  // Each chat is a link to the chat's page.
                   <Link
                     href={`/chat/${chat.id}`}
                     className={twMerge(
@@ -67,7 +63,6 @@ export const HistoryRenderer = ({
                         : "hover:text-blue-600 dark:hover:text-blue-400"
                     )}
                   >
-                    // The chat's title or id is displayed.
                     <div className="flex gap-1 capitalize">
                       {chat.title ? (
                         <span>{chat.title.slice(0, 35)}</span>
@@ -78,7 +73,6 @@ export const HistoryRenderer = ({
                         </>
                       )}
                     </div>
-                    // If the chat is the active chat, options to delete or edit the chat are displayed.
                     {isActive ? (
                       <div
                         className={twMerge(
@@ -118,7 +112,6 @@ export const HistoryRenderer = ({
           </ul>
         </ScrollArea>
       )}
-      // The user's avatar and email are displayed at the bottom of the component, along with a sign out button.
       <div className="flex items-center gap-2 p-5">
         <Link href="/">
           <Avatar

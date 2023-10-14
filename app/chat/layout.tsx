@@ -35,9 +35,9 @@ export default async function ConversationLayout({
   // Rendering the layout with the chat history and the children components
   return (
     <main className="lg:items-start lg:flex">
-      <HistoryPanel session={session} chats={data} /> // Displaying the chat history in the HistoryPanel
-      <HistorySidebar session={session} chats={data} /> // Displaying the chat history in the HistorySidebar
-      <div className="relative w-full min-h-screen">{children}</div> // Rendering the children components
+      <HistoryPanel session={session} chats={data} /> 
+      <HistorySidebar session={session} chats={data} />
+      <div className="relative w-full min-h-screen">{children}</div>
     </main>
   );
 }

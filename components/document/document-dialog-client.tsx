@@ -1,8 +1,3 @@
-// This file defines a React component named DocumentDialogClient.
-// The component provides a dialog interface for users to select a document from a list of PDF documents.
-// The selected document's value is then passed to a callback function provided via props.
-// The component also includes a search functionality that filters the list of documents based on the user's input.
-
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Button, Dialog, ScrollArea, TextField } from "@radix-ui/themes";
 import React, { useState } from "react";
@@ -11,25 +6,21 @@ import { twMerge } from "tailwind-merge";
 import { VscSearchStop } from "react-icons/vsc";
 import { toast } from "react-hot-toast";
 
-// DocumentDialogClient component definition
 export const DocumentDialogClient = ({
   document,
   setDocument,
 }: {
-  document: string; // The currently selected document
-  setDocument: (doc: string) => void; // Callback function to set the selected document
+  document: string;
+  setDocument: (doc: string) => void;
 }) => {
-  const [docs, setDocs] = useState(PDFDocuments); // State for the list of documents
-  const [input, setInput] = useState(""); // State for the search input
-  const [open, setOpen] = useState(false); // State for the dialog open status
+  const [docs, setDocs] = useState(PDFDocuments);
+  const [input, setInput] = useState("");
+  const [open, setOpen] = useState(false);
 
-  // Handler for the search input change event
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInput(value);
 
-    // If the input is empty, reset the list of documents
-    // Otherwise, filter the list of documents based on the input
     if (value.trim() === "") {
       setDocs(PDFDocuments);
     } else {
@@ -41,18 +32,13 @@ export const DocumentDialogClient = ({
     }
   };
 
-  // Render the component
   return (
-    // Dialog component
     <Dialog.Root open={open} onOpenChange={setOpen}>
-      // Dialog trigger button
       <Dialog.Trigger>
         <Button size="3">Select document</Button>
       </Dialog.Trigger>
 
-      // Dialog content
       <Dialog.Content style={{ maxWidth: 450, padding: 0 }}>
-        // Search input field
         <div className="p-5 border-b shadow-md dark:border-b-zinc-700 dark:shadow-2xl">
           <TextField.Root
             onChange={handleChange}
@@ -66,36 +52,29 @@ export const DocumentDialogClient = ({
             <TextField.Input value={input} placeholder="Search the docs…" />
           </TextField.Root>
         </div>
-        // Scrollable area for the list of documents
         <ScrollArea type="always" scrollbars="vertical" style={{ height: 300 }}>
-          // If there are documents, render a list of them
-          // Otherwise, render a message indicating no results
           {docs.length > 0 ? (
-            // List of documents
             <ul>
               {docs.map((pdf) => {
                 const isActive = pdf.value === document;
                 return (
-                  // Document list item
                   <li
                     key={pdf.value}
                     className="border-b dark:border-b-zinc-700 last-of-type:border-none"
                     value={pdf.value}
                   >
-                    // Button to select the document
                     <button
                       className={twMerge(
                         "flex w-full items-center justify-between p-5 dark:hover:bg-zinc-800 hover:bg-gray-100 transition-all",
                         isActive && "bg-gray-100 dark:bg-zinc-800"
                       )}
                       onClick={() => {
-                        setDocument(pdf.value); // Set the selected document
-                        setOpen(false); // Close the dialog
-                        toast.success("Document is changed"); // Show a success toast
+                        setDocument(pdf.value);
+                        setOpen(false);
+                        toast.success("Document is changed");
                       }}
                     >
                       <span>{pdf.title}</span>
-                      // If the document is the currently selected one, render a checkmark icon
                       {isActive && (
                         <IoCheckmarkSharp className="text-xl text-green-500 dark:text-green-300" />
                       )}
@@ -105,7 +84,6 @@ export const DocumentDialogClient = ({
               })}
             </ul>
           ) : (
-            // No results message
             <p className="flex flex-col items-center gap-2 p-5 text-center">
               <VscSearchStop className="text-3xl" />
               There were no results for your search
@@ -118,6 +96,10 @@ export const DocumentDialogClient = ({
 };
 
 const PDFDocuments = [
+  {
+    value: "None",
+    title: "None",
+  },
   {
     value: "Filtered_BSC_Synergy_Operator_Guide_v1",
     title: "Synergy Operators Manual",
