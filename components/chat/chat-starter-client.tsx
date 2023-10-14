@@ -1,3 +1,9 @@
+// This file defines a React component named `ChatStarterClient`.
+// The component is used to initiate a chat session with a selected document.
+// It displays a list of documents (PDFDocuments) from which the user can select.
+// The selected document's title is displayed at the top of the chat.
+// The user is prompted to start the conversation by typing a message into an input box.
+
 "use client";
 
 import { Select, Separator } from "@radix-ui/themes";

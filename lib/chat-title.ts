@@ -3,6 +3,8 @@ import { PromptTemplate } from "langchain/prompts";
 import { LLMChain } from "langchain/chains";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
+//Not implemented yet, intended to be a chat title generator
+
 export async function chatTitle(message: string){
 
     const supabase = createClientComponentClient();

@@ -1,27 +1,39 @@
+// This file defines the ChatRenderClient component which is responsible for rendering the chat interface.
+// It uses the useChat hook to manage chat state and interactions, and it also handles the submission of messages to the server.
+// The component also provides a mechanism to scroll to the latest message when a new message is added.
+
 "use client";
 
-import { Button } from "@radix-ui/themes";
-import { useChat } from "ai/react";
+// Importing necessary libraries and components
+import { Button } from "@radix-ui/themes"; // Button component from Radix UI
+import { useChat } from "ai/react"; // Custom hook for managing chat
 
+// Importing icons for send button and loading spinner
 import { BsSend } from "react-icons/bs";
 import { ImSpinner2 } from "react-icons/im";
-import { useEffect, useState } from "react";
-import { ENDPOINT } from "@/constants/endpoint";
-import { useParams } from "next/navigation";
-import { ChatMessage } from "./chat-message";
-import { ChatStarterClient } from "./chat-starter-client";
-import { DocumentDialogClient } from "../document/document-dialog-client";
 
+// Importing necessary hooks and constants
+import { useEffect, useState } from "react";
+import { ENDPOINT } from "@/constants/endpoint"; // API endpoint constant
+import { useParams } from "next/navigation"; // Hook for accessing router params
+
+// Importing chat related components
+import { ChatMessage } from "./chat-message"; // Component for rendering individual chat message
+import { ChatStarterClient } from "./chat-starter-client"; // Component for starting the chat
+import { DocumentDialogClient } from "../document/document-dialog-client"; // Document dialog component
+
+// ChatRenderClient component definition
 export function ChatRenderClient({
   defaultMessages,
 }: {
-  defaultMessages: TMessage[] | null;
+  defaultMessages: TMessage[] | null; // Prop for default messages
 }) {
-  const params = useParams();
+  const params = useParams(); // Getting router params
   const [inputOption, setInputOption] = useState<string>(
     "N9-20077 Aurora CS 121621-review-2.pdf"
-  );
+  ); // State for input option
 
+  // Using the useChat hook to manage chat state and interactions
   const {
     messages,
     input,
@@ -34,6 +46,7 @@ export function ChatRenderClient({
       selectedOption: inputOption,
     },
     onFinish: async (message) => {
+      // Function to execute when a message is sent
       await fetch(`${ENDPOINT}/api/message/${params.id}`, {
         method: "POST",
         body: JSON.stringify({
@@ -44,6 +57,7 @@ export function ChatRenderClient({
     },
   });
 
+  // Effect for setting default messages
   useEffect(() => {
     if (defaultMessages) {
       setMessages(
@@ -56,6 +70,7 @@ export function ChatRenderClient({
     }
   }, []);
 
+  // Effect for scrolling to the latest message
   useEffect(() => {
     window.scrollTo({
       top: document.documentElement.scrollHeight,
@@ -63,6 +78,7 @@ export function ChatRenderClient({
     });
   }, [messages]);
 
+  // Rendering the chat interface
   return (
     <div className="relative flex flex-col justify-between min-h-screen">
       <div>

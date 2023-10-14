@@ -1,26 +1,37 @@
-import { ChatCreatorClient } from "@/components/chat";
-import { UploadPDFButton } from "@/components/document/upload-button";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+// This file defines the NewChat component which is used to create a new chat session.
+// It uses Supabase for authentication and database operations.
+// If the user is not authenticated, they are redirected to the home page.
+// If the user is an admin, they are given the option to upload a PDF file.
+// If the user is not an admin, they are informed that they do not have the required access to upload a PDF file.
 
+import { ChatCreatorClient } from "@/components/chat"; // Importing the ChatCreatorClient component
+import { UploadPDFButton } from "@/components/document/upload-button"; // Importing the UploadPDFButton component
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"; // Importing the createServerComponentClient function from Supabase
+import { cookies } from "next/headers"; // Importing the cookies object from Next.js headers
+import { redirect } from "next/navigation"; // Importing the redirect function from Next.js navigation
+
+// The NewChat component
 export default async function NewChat() {
-  const supabase = createServerComponentClient<Database>({ cookies });
+  const supabase = createServerComponentClient<Database>({ cookies }); // Creating a Supabase client
 
+  // Getting the current session
   const {
     data: { session },
   } = await supabase.auth.getSession();
 
+  // If there is no session, redirect to the home page
   if (!session) {
     redirect("/");
   }
 
+  // Fetching the user data from the 'users' table in the database
   const { data: user } = await supabase
     .from("users")
     .select("*")
     .eq("id", session.user.id)
     .single();
 
+  // Rendering the component
   return (
     <main className="flex items-center justify-center h-screen">
       <div className="flex flex-col items-center max-w-lg gap-5 p-5 text-center">
@@ -32,9 +43,9 @@ export default async function NewChat() {
               can use the below button to start uploading a PDF document
             </p>
             <div className="flex flex-wrap gap-2">
-              <UploadPDFButton />
+              <UploadPDFButton /> {/* The button for uploading a PDF file */}
               <div className="lg:hidden">
-                <ChatCreatorClient />
+                <ChatCreatorClient /> {/* The chat creator client */}
               </div>
             </div>
           </>
@@ -46,7 +57,7 @@ export default async function NewChat() {
               get the access.
             </p>
             <div className="lg:hidden">
-              <ChatCreatorClient />
+              <ChatCreatorClient /> {/* The chat creator client */}
             </div>
           </>
         )}
