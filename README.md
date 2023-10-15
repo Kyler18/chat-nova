@@ -1,4 +1,4 @@
-# Vercel AI SDK, Next.js, LangChain, OpenAI Chat Bot
+# Vercel AI SDK, Next.js, LangChain, OpenAI, Supabase Chat Bot
 
 This chatbot uses the [Vercel AI SDK](https://sdk.vercel.ai/docs) with [Next.js](https://nextjs.org/), [LangChain](https://js.langchain.com), [OpenAI](https://openai.com), and [SupaBase](https://supabase.com/docs) to create a ChatGPT-like AI-powered streaming chat bot with the ability to talk with your PDF documents.
 
