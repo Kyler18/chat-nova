@@ -1,12 +1,3 @@
-create table
-  public.chats (
-    id uuid not null default gen_random_uuid (),
-    created_at timestamp with time zone not null default now(),
-    user_id uuid not null,
-    title text null,
-    constraint chats_pkey primary key (id),
-    constraint chats_user_id_fkey foreign key (user_id) references users (id) on update cascade on delete cascade
-  ) tablespace pg_default;
 
   -- Enable the pgvector extension to work with embedding vectors
 create extension vector;
@@ -49,7 +40,27 @@ begin
 end;
 $$;
 
-create table
+  create table
+  public.users (
+    id uuid not null,
+    created_at timestamp with time zone not null default now(),
+    email text not null,
+    avatar_url text null,
+    role text not null default 'user'::text,
+    constraint users_pkey primary key (id),
+    constraint users_id_fkey foreign key (id) references auth.users (id) on update cascade on delete cascade
+  ) tablespace pg_default;
+
+  create table
+  public.chats (
+    id uuid not null default gen_random_uuid (),
+    created_at timestamp with time zone not null default now(),
+    user_id uuid not null,
+    title text null,
+    constraint chats_pkey primary key (id),
+    constraint chats_user_id_fkey foreign key (user_id) references users (id) on update cascade on delete cascade
+  ) tablespace pg_default;
+  create table
   public.messages (
     id uuid not null default gen_random_uuid (),
     created_at timestamp with time zone not null default now(),
@@ -60,15 +71,4 @@ create table
     constraint messages_pkey primary key (id),
     constraint messages_chat_id_fkey foreign key (chat_id) references chats (id) on update cascade on delete cascade,
     constraint messages_user_id_fkey foreign key (user_id) references users (id) on update cascade on delete cascade
-  ) tablespace pg_default;
-
-  create table
-  public.users (
-    id uuid not null,
-    created_at timestamp with time zone not null default now(),
-    email text not null,
-    avatar_url text null,
-    role text not null default 'user'::text,
-    constraint users_pkey primary key (id),
-    constraint users_id_fkey foreign key (id) references auth.users (id) on update cascade on delete cascade
   ) tablespace pg_default;
