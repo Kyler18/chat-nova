@@ -1,26 +1,90 @@
-# Vercel AI SDK, Next.js, LangChain, OpenAI, Supabase Chat Bot
+<div id="top"></div>
 
-This chatbot uses the [Vercel AI SDK](https://sdk.vercel.ai/docs) with [Next.js](https://nextjs.org/), [LangChain](https://js.langchain.com), [OpenAI](https://openai.com), and [SupaBase](https://supabase.com/docs) to create a ChatGPT-like AI-powered streaming chat bot with the ability to talk with your PDF documents.
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://www.freecodecamp.org/">
+    <img src="./public/glow.png" alt="Logo" width="80" height="80">
+  </a>
+
+  <h2 align="center">
+    Kickstart Your Own ChatGPT Clone in Just 5 Minutes
+  </h2>
+
+  <p align="center">
+    Chat Nova will help you to build a custom AI Chatbot with full authentication and database management flow in a just few minutes
+    <br />
+    <a href="https://www.chatnova.co"><strong>What is Chat Nova »</strong></a>
+    <br />
+    <br />
+    <a href="https://www.chatnova.co">View Demo</a>
+    ·
+    <a href="https://github.com/Kyler18/chat-nova/issues">Request Feature</a>
+    ·
+    <a href="https://github.com/Kyler18/chat-nova/issues">Report Bug</a>
+  </p>
+
+[![React](https://img.shields.io/badge/-React-blue?logo=React)](https://reactjs.org/)
+[![Next.js](https://img.shields.io/badge/-Next.js-black?logo=Next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/-TypeScript-white?logo=TypeScript)](https://www.typescriptlang.org/)
+[![Supabase](https://img.shields.io/badge/-Supabase-0057FF?logo=Supabase)](https://supabase.io/)
+[![Tailwind CSS](https://img.shields.io/badge/-Tailwind%20CSS-000000?logo=Tailwind-CSS)](https://tailwindcss.com/)
+[![Framer Motion](https://img.shields.io/badge/-Framer%20Motion-red?logo=Framer)](https://www.framer.com/api/motion/)
 
 
-To run the bot locally you need to:
+</div>
 
-1. Sign up at [OpenAI's Developer Platform](https://platform.openai.com/signup).
-2. Go to [OpenAI's dashboard](https://platform.openai.com/account/api-keys) and create an API KEY.
-3. Set the required OpenAI environment variable as the token value as shown [the example env file](./.env.local.example) but in a new file called `.env.local`.
-4. You need to execute the SQL query file located in the root directory in a supabase database query.
-5. You'll need to set up your RLS policies in Authentication > Policies. 
-6. After executing the query navigate to project settings > API to get the required keys specified in the .env.local.example file.
-7. `npm install` to install the required dependencies.
-8. `npm run dev` to launch the development server.
+<div align="center">
 
-## Learn More
+![Thumbnail](./public/og.png)
 
-To learn more about LangChain, OpenAI, Next.js, and the Vercel AI SDK take a look at the following resources:
+</div>
 
-- [Vercel AI SDK docs](https://sdk.vercel.ai/docs) - learn mode about the Vercel AI SDK
-- [Vercel AI Playground](https://play.vercel.ai) - compare and tune 20+ AI models side-by-side
-- [LangChain Documentation](https://js.langchain.com/docs) - learn about LangChain
-- [OpenAI Documentation](https://platform.openai.com/docs) - learn about OpenAI features and API.
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [SupaBase Documentation](https://supabase.com/docs) - learn about Supabase.
+## Introduction
+
+Chat Nova is a full-stack chatbot that allows you to build a custom AI chatbot with full authentication and database management flow in a just few minutes. It is built with React, Next.js, TypeScript, Supabase, Tailwind CSS, and Framer Motion.
+
+## Setup environment variables
+
+blah blah
+
+## Run Locally
+
+To run this project in your local development environment, follow
+these steps:
+
+1. Clone the repository to your local machine.
+
+   ```bash
+   git@github.com:Kyler18/chat-nova.git
+   ```
+
+2. Open the cloned folder in your preferred code editor, install the required
+   dependencies by running the following command in the terminal:
+
+   ```bash
+   npm install
+   ```
+
+3. Start the development server by running the following command:
+
+   ```bash
+   npm run dev
+   ```
+
+You are now ready to go!
+
+## Contribute to this project
+
+Thank you for browsing this repo. Any contributions you make are **greatly
+appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and
+create a pull request. You can also simply open an issue with the tag
+"enhancement". Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
