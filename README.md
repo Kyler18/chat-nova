@@ -58,6 +58,111 @@ Chat Nova is a full-stack chatbot that allows you to build a custom AI chatbot w
 
 3. Generate Supabase API keys, and service key: [Supabase Docs](https://supabase.com/docs/guides/getting-started/tutorials/with-nextjs#get-the-api-keys).
 
+## Setup Supabase Database
+
+Once you have successfully setup the environment variables, you can now setup the Supabase database. Follow these steps:
+
+### Users Table
+
+1. Open Supabase SQL Editor, and run the following SQL query to create the users table:
+
+   ```sql
+   create table
+     public.users (
+       id uuid not null,
+       created_at timestamp with time zone not null default now(),
+       email text not null,
+       avatar_url text null,
+       role text not null default 'user'::text,
+       constraint users_pkey primary key (id),
+       constraint users_id_fkey foreign key (id) references auth.users (id) on update cascade on    delete cascade
+     ) tablespace pg_default;
+    ```
+
+2. Create PostgreSQL Function to create user:
+
+   ```sql
+   create function public.create_profile_for_user()
+   returns trigger
+   language plpgsql
+   security definer set search_path = public
+   as $$
+   begin
+       insert into public.users (id, email, avatar_url)
+       values (
+         new.id,
+         new.raw_user_meta_data->'email',
+         new.raw_user_meta_data->'avatar_url'
+       );
+       return new;
+   end;
+   $$;
+   ```
+
+3. Create PostgreSQL Trigger to create profile:
+
+   ```sql
+   create trigger on_auth_user_created
+     after insert on auth.users
+     for each row execute procedure public.create_profile_for_user();
+   ```
+
+### Chats Table
+
+Open Supabase SQL Editor, and run the following SQL query to create the chats table:
+
+```sql
+create table
+  public.chats (
+    id uuid not null default gen_random_uuid (),
+    created_at timestamp with time zone not null default now(),
+    user_id uuid not null,
+    title text null,
+    constraint chats_pkey primary key (id),
+    constraint chats_user_id_fkey foreign key (user_id) references users (id) on update cascade on delete cascade
+  ) tablespace pg_default;
+```
+
+Once you create the chats table, you need to create the necessary RLS policies for this table. ( What is RLS? [Supabase Docs](https://supabase.com/docs/guides/auth/row-level-security) )
+
+1. authenticated users can create new chats:
+
+   ```sql
+   CREATE POLICY "authenticated users can create new chats" ON "public"."chats"
+   AS PERMISSIVE FOR INSERT
+   TO authenticated
+
+   WITH CHECK (user_id = auth.uid())
+   ```   
+
+2. authenticated users can delete their own chat:
+
+   ```sql
+   CREATE POLICY "authenticated users can delete their own chat" ON "public"."chats"
+   AS PERMISSIVE FOR DELETE
+   TO authenticated
+   USING (user_id = auth.uid())
+   ```  
+
+3. authenticated users can update their own chats:
+
+   ```sql
+   CREATE POLICY "authenticated users can update their own chats" ON "public"."chats"
+   AS PERMISSIVE FOR UPDATE
+   TO authenticated
+   USING (user_id = auth.uid())
+   WITH CHECK (user_id = auth.uid())
+   ```   
+
+3. authenticated users can view their own chats:
+
+   ```sql
+   CREATE POLICY "authenticated users can view their own chats" ON "public"."chats"
+   AS PERMISSIVE FOR SELECT
+   TO authenticated
+   USING (user_id = auth.uid())
+   ```   
+
 ## Run Locally
 
 To run this project in your local development environment, follow
