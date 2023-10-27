@@ -46,7 +46,17 @@ Chat Nova is a full-stack chatbot that allows you to build a custom AI chatbot w
 
 ## Setup environment variables
 
-blah blah
+1. Create `env.local` file inside the root directory of the project, and add the following environment variables:
+
+   ```bash
+   OPENAI_API_KEY= <YOUR API KEY HERE>
+   NEXT_PUBLIC_SUPABASE_URL= <SUPABASE URL>
+   NEXT_PUBLIC_SUPABASE_ANON_KEY= <ANON KEY>
+   SUPABASE_SERVICE_KEY= <SERVICE KEY>
+   ```
+2. Generate a new OpenAI API key: [OpenAI Docs](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key).
+
+3. Generate Supabase API keys, and service key: [Supabase Docs](https://supabase.com/docs/guides/getting-started/tutorials/with-nextjs#get-the-api-keys).
 
 ## Run Locally
 
