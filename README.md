@@ -203,6 +203,41 @@ Once you create the messages table, you need to create the necessary RLS policie
    USING (user_id = auth.uid())
    ```  
 
+### Documents Table
+
+Open Supabase SQL Editor, and run the following SQL query to create the documents table:
+
+```sql
+create table
+  public.documents (
+    id bigserial,
+    content text null,
+    metadata jsonb null,
+    embedding public.vector null,
+    constraint documents_pkey primary key (id)
+  ) tablespace pg_default;
+```
+
+Once you create the documents table, you need to create the necessary RLS policies for this table. ( What is RLS? [Supabase Docs](https://supabase.com/docs/guides/auth/row-level-security) )
+
+1. enable insert documents:
+
+   ```sql
+   CREATE POLICY "enable insert documents" ON "public"."documents"
+   AS PERMISSIVE FOR INSERT
+   TO public
+
+   WITH CHECK (true)
+   ```   
+
+2. users can view their own messages:
+
+   ```sql
+   CREATE POLICY "users can view their own messages" ON "public"."documents"
+   AS PERMISSIVE FOR SELECT
+   TO authenticated
+   USING (user_id = auth.uid())
+
 ## Run Locally
 
 To run this project in your local development environment, follow
