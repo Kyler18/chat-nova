@@ -163,6 +163,46 @@ Once you create the chats table, you need to create the necessary RLS policies f
    USING (user_id = auth.uid())
    ```   
 
+### Messages Table
+
+Open Supabase SQL Editor, and run the following SQL query to create the messages table:
+
+```sql
+create table
+  public.messages (
+    id uuid not null default gen_random_uuid (),
+    created_at timestamp with time zone not null default now(),
+    role text not null,
+    content text not null,
+    chat_id uuid not null,
+    user_id uuid not null,
+    constraint messages_pkey primary key (id),
+    constraint messages_chat_id_fkey foreign key (chat_id) references chats (id) on update cascade on delete cascade,
+    constraint messages_user_id_fkey foreign key (user_id) references users (id) on update cascade on delete cascade
+  ) tablespace pg_default;
+```
+
+Once you create the messages table, you need to create the necessary RLS policies for this table. ( What is RLS? [Supabase Docs](https://supabase.com/docs/guides/auth/row-level-security) )
+
+1. enable insert messages for authenticated users only:
+
+   ```sql
+   CREATE POLICY "enable insert for authenticated users only" ON "public"."messages"
+   AS PERMISSIVE FOR INSERT
+   TO authenticated
+  
+   WITH CHECK (user_id = auth.uid())
+   ```   
+
+2. users can view their own messages:
+
+   ```sql
+   CREATE POLICY "users can view their own messages" ON "public"."messages"
+   AS PERMISSIVE FOR SELECT
+   TO authenticated
+   USING (user_id = auth.uid())
+   ```  
+
 ## Run Locally
 
 To run this project in your local development environment, follow
