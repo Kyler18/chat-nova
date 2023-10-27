@@ -5,6 +5,7 @@ import { IoCheckmarkSharp } from "react-icons/io5";
 import { twMerge } from "tailwind-merge";
 import { VscSearchStop } from "react-icons/vsc";
 import { toast } from "react-hot-toast";
+import { PDFDocuments } from "@/lib/pdf-documents";
 
 export const DocumentDialogClient = ({
   document,
@@ -95,62 +96,3 @@ export const DocumentDialogClient = ({
   );
 };
 
-const PDFDocuments = [
-  {
-    value: "None",
-    title: "None",
-  },
-  {
-    value: "Filtered_BSC_Synergy_Operator_Guide_v1",
-    title: "Synergy Operators Manual",
-  },
-  {
-    value: "SM-001_SY3200 Series Service Manual_ Rev A 5FEB13",
-    title: "Synergy Service Manual",
-  },
-  {
-    value: "Attune™ NxT Software User Guide (Pub. No. 100024236 Rev. F)",
-    title: "Attune User Guide",
-  },
-  {
-    value: "IncuCyte S3 User Manual",
-    title: "Incucyte User Guide",
-  },
-  {
-    value: "ZE5 Cell Analyzer and Everest User Guide",
-    title: "Yeti + Everest User Guide",
-  },
-  {
-    value: "Common Cell Markers",
-    title: "Common Cell Markers",
-  },
-  {
-    value: "Cell Sorting FAQ",
-    title: "Cell Sorting FAQ",
-  },
-  {
-    value:
-      "Cytek® Aurora cFluor Selection Guidelines 5 Laser 16UV-16V-14B-10YG-8R",
-    title: "Aurora cFluor Selection Guidelines(5 Laser)",
-  },
-  {
-    value: "Fluorochrome Testing  April 25 2018",
-    title: "Aurora cFluor Selection Guidelines(3 Laser)",
-  },
-  {
-    value: "N9-20077 Aurora CS 121621-review-2.pdf",
-    title: "Aurora CS User Guide",
-  },
-  {
-    value: "N9-20039US Northern Lights UG 012122.pdf",
-    title: "Northern Lights User Guide",
-  },
-  {
-    value: "N9-20006-E Aurora UG 11112022-ReviewDraft.pdf",
-    title: "Aurora User Guide",
-  },
-  {
-    value: "QRG 2_column.fm",
-    title: "Aurora Quick Reference Guide",
-  },
-];

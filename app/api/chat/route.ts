@@ -5,7 +5,7 @@
 // Finally, it calls the QA chain with the last message and chat history, and returns a streaming text response.
 
 // Importing necessary modules and functions
-import { Retriever, QuestionPrompt } from "@/lib/vector-search"; // For vector search functionality
+import { Retriever, QuestionPrompt, FinalQuestionPrompt } from "@/lib/vector-search"; // For vector search functionality
 import { StreamingTextResponse, LangChainStream, Message } from "ai"; // For AI related operations
 import { ChatOpenAI } from "langchain/chat_models/openai"; // For OpenAI chat model
 import { ConversationalRetrievalQAChain } from "langchain/chains"; // For QA chain operations
@@ -28,38 +28,52 @@ export async function POST(req: Request) {
     modelName: "gpt-3.5-turbo-16k",
     streaming: true,
   });
+  if (body.selectedOption == "No Document") {
+    llm
+      .call(
+        (messages as Message[]).map(m =>
+          m.role == 'user'
+            ? new HumanMessage(m.content)
+            : new AIMessage(m.content),
+        ),
+        {},
+        [handlers],
+      )
+      .catch(console.error);
+  } else {
+    // Initializing the ChatOpenAI without streaming
+    const nonStreamingLLM = new ChatOpenAI({ modelName: "gpt-3.5-turbo-16k" });
 
-  // Initializing the ChatOpenAI without streaming
-  const nonStreamingLLM = new ChatOpenAI({ modelName: "gpt-3.5-turbo-16k" });
+    // Constructing the chat history
+    const chat_history = (messages as Message[]).map((m) =>
+      m.role == "user" ? new HumanMessage(m.content) : new AIMessage(m.content)
+    );
 
-  // Constructing the chat history
-  const chat_history = (messages as Message[]).map((m) =>
-    m.role == "user" ? new HumanMessage(m.content) : new AIMessage(m.content)
-  );
+    // Setting up the Retriever with the selected option
+    const vectorStoreRetriever = await Retriever(body.selectedOption);
 
-  // Setting up the Retriever with the selected option
-  const vectorStoreRetriever = await Retriever(body.selectedOption);
+    // Getting the last message from the chat
+    const lastMessage = messages[messages.length - 1].content;
 
-  // Getting the last message from the chat
-  const lastMessage = messages[messages.length - 1].content;
-
-  // Setting up the ConversationalRetrievalQAChain
-  const qa_chain = ConversationalRetrievalQAChain.fromLLM(
-    llm,
-    vectorStoreRetriever,
-    {
-      questionGeneratorChainOptions: {
-        llm: nonStreamingLLM,
-        template: QuestionPrompt,
-      },
-    }
-  );
-
-  // Calling the QA chain with the last message and chat history
-  qa_chain.call(
-    { question: lastMessage, chat_history: chat_history },
-    { callbacks: [handlers] }
-  );
+    // Setting up the ConversationalRetrievalQAChain
+    const qa_chain = ConversationalRetrievalQAChain.fromLLM(
+      llm,
+      vectorStoreRetriever,
+      {
+        qaChainOptions:{type: "map_reduce"},
+        qaTemplate: FinalQuestionPrompt,
+        questionGeneratorChainOptions: {
+          llm: nonStreamingLLM,
+          template: QuestionPrompt,
+        },
+      }
+    );
+    // Calling the QA chain with the last message and chat history
+    qa_chain.call(
+      { question: lastMessage, chat_history: chat_history },
+      { callbacks: [handlers] }
+    );
+  }
 
   // Returning a streaming text response
   return new StreamingTextResponse(stream);

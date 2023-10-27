@@ -30,7 +30,7 @@ export function ChatRenderClient({
 }) {
   const params = useParams(); // Getting router params
   const [inputOption, setInputOption] = useState<string>(
-    "N9-20077 Aurora CS 121621-review-2.pdf"
+    "No Document"
   ); // State for input option
 
   // Using the useChat hook to manage chat state and interactions

@@ -10,20 +10,24 @@ create table documents (
   embedding vector(1536) -- 1536 works for OpenAI embeddings, change if needed
 );
 
+-- Supabase AI is experimental and may produce incorrect answers
+-- Always verify the output before executing
+
+-- Create the 'vector' extension
+create extension if not exists vector;
+
 -- Create a function to search for documents
 create function match_documents (
-  query_embedding vector(1536),
-  match_count int DEFAULT null,
-  filter jsonb DEFAULT '{}'
+  query_embedding vector (1536),
+  match_count int default null,
+  filter jsonb default '{}'
 ) returns table (
   id bigint,
   content text,
   metadata jsonb,
   embedding jsonb,
   similarity float
-)
-language plpgsql
-as $$
+) language plpgsql as $$
 #variable_conflict use_column
 begin
   return query
@@ -60,6 +64,7 @@ $$;
     constraint chats_pkey primary key (id),
     constraint chats_user_id_fkey foreign key (user_id) references users (id) on update cascade on delete cascade
   ) tablespace pg_default;
+
   create table
   public.messages (
     id uuid not null default gen_random_uuid (),
@@ -72,3 +77,22 @@ $$;
     constraint messages_chat_id_fkey foreign key (chat_id) references chats (id) on update cascade on delete cascade,
     constraint messages_user_id_fkey foreign key (user_id) references users (id) on update cascade on delete cascade
   ) tablespace pg_default;
+
+create function public.create_profile_for_user()
+  returns trigger
+  language plpgsql
+  security definer set search_path = public
+  as $$   
+  begin
+    insert into public.users (id, email, avatar_url)
+    values (
+      new.id,
+      new.raw_user_meta_data->'email',
+      new.raw_user_meta_data->'avatar_url'
+    );
+    return new;
+end;
+$$;
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute procedure public.create_profile_for_user();
