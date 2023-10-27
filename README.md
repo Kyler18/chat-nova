@@ -205,17 +205,39 @@ Once you create the messages table, you need to create the necessary RLS policie
 
 ### Documents Table
 
-Open Supabase SQL Editor, and run the following SQL query to create the documents table:
+Open Supabase SQL Editor, and run the following SQL query to create the `vector` extenstion and the documents table:
 
 ```sql
-create table
-  public.documents (
-    id bigserial,
-    content text null,
-    metadata jsonb null,
-    embedding public.vector null,
-    constraint documents_pkey primary key (id)
-  ) tablespace pg_default;
+-- Create the 'vector' extension
+create extension if not exists vector;
+
+-- Create a function to search for documents
+create function match_documents (
+  query_embedding vector (1536),
+  match_count int default null,
+  filter jsonb default '{}'
+) returns table (
+  id bigint,
+  content text,
+  metadata jsonb,
+  embedding jsonb,
+  similarity float
+) language plpgsql as $$
+#variable_conflict use_column
+begin
+  return query
+  select
+    id,
+    content,
+    metadata,
+    (embedding::text)::jsonb as embedding,
+    1 - (documents.embedding <=> query_embedding) as similarity
+  from documents
+  where metadata @> filter
+  order by documents.embedding <=> query_embedding
+  limit match_count;
+end;
+$$;
 ```
 
 Once you create the documents table, you need to create the necessary RLS policies for this table. ( What is RLS? [Supabase Docs](https://supabase.com/docs/guides/auth/row-level-security) )
