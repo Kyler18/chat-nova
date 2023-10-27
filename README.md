@@ -230,13 +230,17 @@ Once you create the documents table, you need to create the necessary RLS polici
    WITH CHECK (true)
    ```   
 
-2. users can view their own messages:
+2. enable read access for all users:
 
    ```sql
-   CREATE POLICY "users can view their own messages" ON "public"."documents"
+   CREATE POLICY "enable read access for all users" ON "public"."documents"
    AS PERMISSIVE FOR SELECT
-   TO authenticated
-   USING (user_id = auth.uid())
+   TO public
+   USING (true)
+   ```
+
+Now you have successfully setup the Supabase database. You can now run the project locally.   
+
 
 ## Run Locally
 
